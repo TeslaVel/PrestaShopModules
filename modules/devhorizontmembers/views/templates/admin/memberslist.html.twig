@@ -3,23 +3,54 @@
 {% block controllerTitle %}
   {{ 'Listado de miembros' }}
 
-  <a href="{{ path('ps_dev_horizont_members_new') }}">Nuevo miembro</a>
+  <a href="{{ path('ps_dev_horizont_members_edit') }}">Nuevo miembro</a>
 {% endblock %}
 
 {% block contentForm %}
-  <div class="row justify-content-center col-md-12">
-    <div class="card w-100">
-      <div class="card-header">
-        {{ctr_title}}
-      </div>
-      <div class="card-body">
-          {% for member in members %}
-          <div>
-            {{ member.first_name }}
-            {{ member.email}}
-          </div>
+  <div class="row col-md-12">
+    <table class="grid-table table ">
+      <thead class="thead-default">
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in members %}
+          <tr>
+            <td>{{ member.dev_horizont_member_id}}</td>
+            <td>{{ member.first_name }}</td>
+            <td>{{ member.last_name }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.age }}</td>
+            <td>
+              <a
+              class="btn btn-link dropdown-toggle dropdown-toggle-dots dropdown-toggle-split no-rotate"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
+                <a class="btn tooltip-link js-link-row-action dropdown-item" href="{{ path('ps_dev_horizont_members_edit', {'id': member.dev_horizont_member_id}) }}" data-confirm-message="" data-clickable-row="1">
+                  <i class="material-icons">edit</i>
+                    Modificar
+                </a>
+    
+                <form action="{{ path('ps_dev_horizont_members_delete', {'id': member.dev_horizont_member_id}) }}" method="post" class="pl-10">
+                  <button type="submit" class="btn tooltip-link dropdown-item">
+                    <i class="material-icons">delete</i>
+                    Eliminar
+                  </button>
+                </form>
+              </div>
+
+            </td>
+          </tr>
           {% endfor %}
-      </div>
-    </div>
+      </tbody>
+    </table>
   </div>
 {% endblock %}

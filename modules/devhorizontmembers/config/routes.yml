@@ -6,18 +6,26 @@ ps_dev_horizont_members:
         _legacy_controller: 'AdminMembers'
         _legacy_link: 'AdminMembers'
 
-ps_dev_horizont_members_new:
-    path: /dev-horizont-members-new
-    methods: [GET]
-    defaults:
-        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::newAction'
-        _legacy_controller: 'AdminMembers'
-        _legacy_link: 'AdminMembers:new'
-
 ps_dev_horizont_members_save:
-    path: /dev-horizont-members-save
+    path: /dev-horizont-members-save/{id?}
     methods: [POST]
     defaults:
         _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::saveAction'
         _legacy_controller: 'AdminMembers'
         _legacy_link: 'AdminMembers:save'
+
+ps_dev_horizont_members_edit:
+    path: /dev-horizont-members-edit/{id?}
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::editAction'
+        _legacy_controller: 'AdminMembers'
+        _legacy_link: 'AdminMembers:edit'
+
+ps_dev_horizont_members_delete:
+    path: /dev-horizont-members-delete/{id}
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::deleteAction'
+        _legacy_controller: 'AdminMembers'
+        _legacy_link: 'AdminMembers:delete'

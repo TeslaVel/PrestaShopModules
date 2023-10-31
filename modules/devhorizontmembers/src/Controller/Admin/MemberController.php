@@ -39,33 +39,46 @@ class MemberController extends FrameworkBundleAdminController
     );
   }
 
-  public function newAction(Request $request)
-  {
-    $ctr_title = 'Formulario de registro de miembros';
-  
+public function editAction(Request $request, int $id = null)
+{
     // Obtiene el token del controlador
     $token = $request->query->get('_token');
+    $ctr_title = 'Formulario de registro de miembros';
+    $action = $this->generateUrl('ps_dev_horizont_members_save', ['_token' => $token]);
+    $ctr_submit_action = 'Crear';
+
+    if ($id) {
+      $ctr_title = 'Editar Miembro ';
+      $ctr_submit_action = 'Actualizar';
+      $action = $this->generateUrl('ps_dev_horizont_members_save', ['id' => $id, '_token' => $token]);
+    }
+
     $form = $this->createFormBuilder()
     ->add('first_name', TextType::class)
     ->add('last_name', TextType::class)
     ->add('age', TextType::class)
     ->add('email', EmailType::class)
     ->setMethod('POST')
-    ->setAction($this->generateUrl('ps_dev_horizont_members_save', ['_token' => $token]))
+    ->setAction($action)
     ->getForm();
 
-    // $request->set('form', $form);
+    if ($id) {
+        $member = $this->getMemberById($id);
+        $form->setData($member);
+    }
 
     return $this->render('@Modules/devhorizontmembers/views/templates/admin/memberform.html.twig',
       [
         'ctr_title' => $ctr_title,
+        'ctr_submit_action' => $ctr_submit_action,
         'form' => $form->createView()
       ]
     );
-  }
+}
 
-  public function saveAction(Request $request)
+  public function saveAction(Request $request, int $id = null)
   {
+
     // $data = $request->get('form');
     $form = $this->createFormBuilder()
     ->add('first_name', TextType::class)
@@ -96,11 +109,19 @@ class MemberController extends FrameworkBundleAdminController
         ];
 
         try {
-          $last_id = $this->insertData($toInsert);
 
-          if (!filter_var($last_id, FILTER_VALIDATE_INT)) {
-            $flash_type = 'error';
-            $flash_object = $this->trans('Member could not be created', 'Admin.Notifications.Error');
+          if (filter_var($id, FILTER_VALIDATE_INT)) {
+            $affected = $this->updateData($toInsert, $id);
+            if ($affected) {
+              $flash_object = $this->trans('Member was updated', 'Admin.Notifications.Success');
+            }
+          } else {
+            $last_id = $this->insertData($toInsert);
+
+            if (!filter_var($last_id, FILTER_VALIDATE_INT)) {
+              $flash_type = 'error';
+              $flash_object = $this->trans('Member could not be created', 'Admin.Notifications.Error');
+            }
           }
         } catch (SupplierException $e) {
           $flash_type = 'error';
@@ -115,9 +136,26 @@ class MemberController extends FrameworkBundleAdminController
       $this->addFlash($flash_type, $flash_object);
     }
 
-    $route = $flash_type == 'error' ? 'ps_dev_horizont_members_new' : 'ps_dev_horizont_members';
+    $route = $flash_type == 'error' ? 'ps_dev_horizont_members_edit' : 'ps_dev_horizont_members';
 
     return $this->redirectToRoute($route);
+  }
+
+  public function deleteAction(Request $request, $id)
+  {
+    $member = $this->getMemberById($id);
+
+    if (!empty($member)) {
+      $affected = $this->deleteMember($id);
+
+      if ($affected) {
+        $this->addFlash('success', 'The member was deleted successfully.');
+      } else {
+        $this->addFlash('warning', 'The member was not deleted.');
+      }
+    }
+
+    return $this->redirectToRoute('ps_dev_horizont_members');
   }
 
   protected function insertData($data) {
@@ -135,6 +173,19 @@ class MemberController extends FrameworkBundleAdminController
     return $id;
   }
 
+  protected function updateData($data, $member_id) {
+    $email = $data['email'];
+    $first_name = $data['first_name'];
+    $last_name = $data['last_name'];
+    $age = $data['age'];
+
+    $sql = 'UPDATE `' . _DB_PREFIX_ . self::DB_TABLE_NAME . '` SET `email` = "' . pSQL($email) . '", `first_name` = "' . pSQL($first_name) . '", `last_name` = "' . pSQL($last_name) . '", `age` = ' . (int)$age . ' WHERE `dev_horizont_member_id` = ' . (int)$member_id . ';';
+
+    Db::getInstance()->execute($sql);
+
+    return Db::getInstance()->Affected_Rows() > 0;
+  }
+
   protected function getAllMembers()
   {
     $sql = 'SELECT * FROM `' . _DB_PREFIX_ . self::DB_TABLE_NAME.'`';
@@ -142,5 +193,27 @@ class MemberController extends FrameworkBundleAdminController
     $results = Db::getInstance()->executeS($sql);
 
     return $results;
+  }
+
+  protected function getMemberById($id)
+  {
+    $sql = 'SELECT * FROM `' . _DB_PREFIX_ . self::DB_TABLE_NAME . '` WHERE `dev_horizont_member_id` = ' . (int)$id;
+
+    $results = Db::getInstance()->executeS($sql);
+
+    if (!empty($results)) {
+      return $results[0];
+    }
+
+    return null;
+  }
+
+  public function deleteMember($id)
+  {
+    $sql = 'DELETE FROM `' . _DB_PREFIX_ . self::DB_TABLE_NAME . '` WHERE `dev_horizont_member_id` = ' . (int)$id . ';';
+
+    Db::getInstance()->execute($sql);
+
+    return Db::getInstance()->Affected_Rows() > 0;
   }
 }
