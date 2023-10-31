@@ -1,9 +1,10 @@
 {% extends '@Modules/devhorizontmembers/views/templates/admin/layout.html.twig' %}
 
-{% block controllerTitle %}
-  {{ 'Formulario de miembros'}}
+{% block cardHeaderTitle %}
+  {{ 'Member Form'}}
+{% endblock %}
 
-
+{% block cardHeaderAction %}
   <a href="{{ path('ps_dev_horizont_members') }}">Back</a>
 {% endblock %}
 

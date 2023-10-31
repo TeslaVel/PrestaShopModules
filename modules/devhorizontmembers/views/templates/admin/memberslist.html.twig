@@ -1,9 +1,11 @@
 {% extends '@Modules/devhorizontmembers/views/templates/admin/layout.html.twig' %}
 
-{% block controllerTitle %}
-  {{ 'Listado de miembros' }}
+{% block cardHeaderTitle %}
+  {{ 'List of Members' }}
+{% endblock %}
 
-  <a href="{{ path('ps_dev_horizont_members_edit') }}">Nuevo miembro</a>
+{% block cardHeaderAction %}
+  <a href="{{ path('ps_dev_horizont_members_edit') }}">New Member</a>
 {% endblock %}
 
 {% block contentForm %}
@@ -36,13 +38,13 @@
               <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
                 <a class="btn tooltip-link js-link-row-action dropdown-item" href="{{ path('ps_dev_horizont_members_edit', {'id': member.dev_horizont_member_id}) }}" data-confirm-message="" data-clickable-row="1">
                   <i class="material-icons">edit</i>
-                    Modificar
+                    Edit
                 </a>
     
-                <form action="{{ path('ps_dev_horizont_members_delete', {'id': member.dev_horizont_member_id}) }}" method="post" class="pl-10">
-                  <button type="submit" class="btn tooltip-link dropdown-item">
+                <form action="{{ path('ps_dev_horizont_members_delete', {'id': member.dev_horizont_member_id}) }}" method="post" class="btn dropdown-item">
+                  <button type="submit" class="btn tooltip-link dropdown-item p-0">
                     <i class="material-icons">delete</i>
-                    Eliminar
+                    Delete
                   </button>
                 </form>
               </div>

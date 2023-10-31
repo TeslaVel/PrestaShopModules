@@ -4,15 +4,19 @@
   <div class="row justify-content-center">
     <div class="col">
       <div class="card">
-        <h3 class="card-header">
-          <i class="material-icons">settings</i> {% block controllerTitle %}{{ 'DevHz Members Tab'|trans({}, 'Modules.MemberController.Admin') }}{% endblock %}
-        </h3>
+        <div class="card-header d-flex justify-content-between">
+          <span>
+            <i class="material-icons">settings</i> {% block cardHeaderTitle %} {% endblock %}
+          </span>
+          <span>
+            {% block cardHeaderAction %} {{''}} {% endblock %}
+          </span>
+        </div>
         <div class="card-body card-block">
           {% block contentForm %}
           {% endblock %}
         </div>
         <div class="card-footer">
-          Texto del footer
         </div>
       </div>
     </div>

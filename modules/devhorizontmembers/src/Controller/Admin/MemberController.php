@@ -43,13 +43,13 @@ public function editAction(Request $request, int $id = null)
 {
     // Obtiene el token del controlador
     $token = $request->query->get('_token');
-    $ctr_title = 'Formulario de registro de miembros';
+    $ctr_title = 'Member Registration Form';
     $action = $this->generateUrl('ps_dev_horizont_members_save', ['_token' => $token]);
-    $ctr_submit_action = 'Crear';
+    $ctr_submit_action = 'Create';
 
     if ($id) {
-      $ctr_title = 'Editar Miembro ';
-      $ctr_submit_action = 'Actualizar';
+      $ctr_title = 'Edit Member ';
+      $ctr_submit_action = 'Update';
       $action = $this->generateUrl('ps_dev_horizont_members_save', ['id' => $id, '_token' => $token]);
     }
 
