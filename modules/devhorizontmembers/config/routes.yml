@@ -1,0 +1,23 @@
+ps_dev_horizont_members:
+    path: /dev-horizont-members
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::indexAction'
+        _legacy_controller: 'AdminMembers'
+        _legacy_link: 'AdminMembers'
+
+ps_dev_horizont_members_new:
+    path: /dev-horizont-members-new
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::newAction'
+        _legacy_controller: 'AdminMembers'
+        _legacy_link: 'AdminMembers:new'
+
+ps_dev_horizont_members_save:
+    path: /dev-horizont-members-save
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController::saveAction'
+        _legacy_controller: 'AdminMembers'
+        _legacy_link: 'AdminMembers:save'

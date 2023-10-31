@@ -1,0 +1,22 @@
+{
+  "name": "prestashop/devhorizontmembers",
+  "license": "AFL-3.0",
+  "authors": [
+    {
+      "name": "Jose Garces",
+      "email": "teslaveloper@gmail.com"
+    },
+    {
+      "name": "PrestaShop Core Team"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\DevHorizontMembers\\": "src/"
+    },
+    "config": {
+      "prepend-autoloader": false
+    },
+    "type": "prestashop-module"
+  }
+}

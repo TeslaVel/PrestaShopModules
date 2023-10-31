@@ -1,0 +1,32 @@
+{% extends '@!PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col">
+      <div class="card">
+        <h3 class="card-header">
+          <i class="material-icons">settings</i> {% block controllerTitle %}{{ 'DevHz Members Tab'|trans({}, 'Modules.MemberController.Admin') }}{% endblock %}
+        </h3>
+        <div class="card-body card-block">
+          {% block contentForm %}
+          {% endblock %}
+        </div>
+        <div class="card-footer">
+          Texto del footer
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/atom-one-dark.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}

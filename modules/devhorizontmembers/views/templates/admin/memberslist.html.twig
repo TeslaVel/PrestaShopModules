@@ -1,0 +1,25 @@
+{% extends '@Modules/devhorizontmembers/views/templates/admin/layout.html.twig' %}
+
+{% block controllerTitle %}
+  {{ 'Listado de miembros' }}
+
+  <a href="{{ path('ps_dev_horizont_members_new') }}">Nuevo miembro</a>
+{% endblock %}
+
+{% block contentForm %}
+  <div class="row justify-content-center col-md-12">
+    <div class="card w-100">
+      <div class="card-header">
+        {{ctr_title}}
+      </div>
+      <div class="card-body">
+          {% for member in members %}
+          <div>
+            {{ member.first_name }}
+            {{ member.email}}
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

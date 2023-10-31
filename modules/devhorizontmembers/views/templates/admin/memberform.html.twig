@@ -1,0 +1,47 @@
+{% extends '@Modules/devhorizontmembers/views/templates/admin/layout.html.twig' %}
+
+{% block controllerTitle %}
+  {{ 'Formulario de miembros'}}
+
+
+  <a href="{{ path('ps_dev_horizont_members') }}">Back</a>
+{% endblock %}
+
+{% block contentForm %}
+  <div class="form-wrapper">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="col-md-12">
+          {{ form_start(form) }}
+          <input type="hidden" name="action" value="saveAction">
+
+          <div class="form-group">
+            {{ form_label(form.first_name) }}
+            {{ form_widget(form.first_name) }}
+          </div>
+
+          <div class="form-group">
+            {{ form_label(form.last_name) }}
+            {{ form_widget(form.last_name) }}
+          </div>
+
+          <div class="form-group">
+            {{ form_label(form.age) }}
+            {{ form_widget(form.age) }}
+          </div>
+
+          <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+          </div>
+
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Guardar">
+          </div>
+
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
