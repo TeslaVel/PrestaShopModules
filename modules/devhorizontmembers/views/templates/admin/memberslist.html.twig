@@ -24,7 +24,7 @@
       <tbody>
         {% for member in members %}
           <tr>
-            <td>{{ member.dev_horizont_member_id}}</td>
+            <td>{{ member.id}}</td>
             <td>{{ member.first_name }}</td>
             <td>{{ member.last_name }}</td>
             <td>{{ member.email }}</td>
@@ -36,12 +36,12 @@
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
-                <a class="btn tooltip-link js-link-row-action dropdown-item" href="{{ path('ps_dev_horizont_members_edit', {'id': member.dev_horizont_member_id}) }}" data-confirm-message="" data-clickable-row="1">
+                <a class="btn tooltip-link js-link-row-action dropdown-item" href="{{ path('ps_dev_horizont_members_edit', {'id': member.id}) }}" data-confirm-message="" data-clickable-row="1">
                   <i class="material-icons">edit</i>
                     Edit
                 </a>
     
-                <form action="{{ path('ps_dev_horizont_members_delete', {'id': member.dev_horizont_member_id}) }}" method="post" class="btn dropdown-item">
+                <form action="{{ path('ps_dev_horizont_members_delete', {'id': member.id}) }}" method="post" class="btn dropdown-item">
                   <button type="submit" class="btn tooltip-link dropdown-item p-0">
                     <i class="material-icons">delete</i>
                     Delete

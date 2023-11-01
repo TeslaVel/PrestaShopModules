@@ -19,7 +19,6 @@
 
 
 
-
 # Delete Action
 
 ![imagen](https://github.com/TeslaVel/PrestaShopModules/assets/95509478/68335fa8-2292-464d-b860-432959ebdb57)

@@ -6,8 +6,9 @@ use PrestaShop\Module\DevHorizontMembers\Controller\Admin\MemberController;
 
 if (!defined('_PS_VERSION_')) exit;
 
-// Needed for install process
-require_once __DIR__ . '/vendor/autoload.php';
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+  require_once __DIR__.'/vendor/autoload.php';
+}
 
 class DevHorizontMembers extends Module
 {
@@ -53,7 +54,7 @@ class DevHorizontMembers extends Module
   public function installDb()
   {
     $sql = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . MemberController::DB_TABLE_NAME . '` (
-              `dev_horizont_member_id` INT AUTO_INCREMENT PRIMARY KEY,
+              `id` INT AUTO_INCREMENT PRIMARY KEY,
               `email` VARCHAR(255) NOT NULL,
               `first_name` VARCHAR(255) NOT NULL,
               `last_name` VARCHAR(255) NOT NULL,

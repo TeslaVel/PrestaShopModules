@@ -12,8 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use PrestaShop\Module\DevHorizontMembers\Functions\DevHzMembersDbFunctions\DevHzSql;
 
-use Db;
-
 class MemberController extends FrameworkBundleAdminController
 {
   const TAB_CLASS_NAME = 'AdminMembers';
@@ -44,7 +42,6 @@ class MemberController extends FrameworkBundleAdminController
 
   public function editAction(Request $request, int $id = null)
   {
-      // Obtiene el token del controlador
       $token = $request->query->get('_token');
       $ctr_title = 'Member Registration Form';
       $action = $this->generateUrl('ps_dev_horizont_members_save', ['_token' => $token]);
