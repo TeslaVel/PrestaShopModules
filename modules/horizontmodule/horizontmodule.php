@@ -75,10 +75,10 @@ class HorizontModule extends Module
 
   public function HookDisplayNavFullWidth($params) {
 
-    echo $this->context->link->getModuleLink($this->name, 'page');
-
+    $module_link = $this->context->link->getModuleLink('horizontmodule', 'page');
     $this->context->smarty->assign([
-      'title' => 'Texto de mi widget FC'
+      'title' => 'Horizont Module FC',
+      'module_link' => $module_link
     ]);
 
     return $this->fetch("module:horizontmodule/views/templates/hook/devhorizonttemplate.tpl");

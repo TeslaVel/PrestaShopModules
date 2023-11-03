@@ -1,1 +1,5 @@
-<h1>Mi titulo de pagina</h1>
+{extends file='page.tpl'}
+
+{block name='page_content_container'}
+   Welcome to my shop!
+{/block}
