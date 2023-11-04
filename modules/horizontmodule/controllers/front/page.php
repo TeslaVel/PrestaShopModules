@@ -2,7 +2,7 @@
 
 class HorizontModulePageModuleFrontController extends ModuleFrontController
 {
-  public function intiContent() {
+  public function initContent() {
     parent::initContent();
 
     return $this->setTemplate('module:horizontmodule/views/templates/front/page.tpl');

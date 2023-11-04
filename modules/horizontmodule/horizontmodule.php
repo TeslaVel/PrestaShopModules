@@ -41,7 +41,8 @@ class HorizontModule extends Module
     return (
       parent::install() &&
       $this->registerHook('displayNavFullWidth') &&
-      Configuration::updateValue('VALORPARAWIDGET', 'ESTE ES EL TEXO DE MI WIDGED')
+      $this->registerHook('actionFrontControllerSetMedia') &&
+      Configuration::updateValue('MYCONFIGVALUEENV', 'ESTE ES EL TEXO DE MI WIDGED')
     );
   
   }
@@ -50,7 +51,7 @@ class HorizontModule extends Module
   {
     return (
       parent::uninstall() &&
-      Configuration::deleteByName('VALORPARAWIDGET')
+      Configuration::deleteByName('MYCONFIGVALUEENV')
     );
   }
 
@@ -62,7 +63,7 @@ class HorizontModule extends Module
     if (Tools::isSubmit('btnSubmitForm')) {
       $v_widget = Tools::getValue('valor_input_widget');
 
-      if (!empty($v_widget)) Configuration::updateValue('VALORPARAWIDGET', $v_widget);
+      if (!empty($v_widget)) Configuration::updateValue('MYCONFIGVALUEENV', $v_widget);
     }
 
     $this->context->smarty->assign([
@@ -76,11 +77,33 @@ class HorizontModule extends Module
   public function HookDisplayNavFullWidth($params) {
 
     $module_link = $this->context->link->getModuleLink('horizontmodule', 'page');
+    $title = Configuration::get('MYCONFIGVALUEENV');
     $this->context->smarty->assign([
-      'title' => 'Horizont Module FC',
+      'title' => $title,
       'module_link' => $module_link
     ]);
 
     return $this->fetch("module:horizontmodule/views/templates/hook/devhorizonttemplate.tpl");
+  }
+
+  public function hookActionFrontControllerSetMedia()
+  {
+    $this->context->controller->registerStylesheet(
+      'horizontmodule-style',
+      'modules/' . $this->name . '/views/css/horizontmodule.css',
+      [
+        'media' => 'all',
+        'priority' => 1000,
+      ]
+    );
+
+    $this->context->controller->registerJavascript(
+      'horizontmodule-javascript',
+      'modules/' . $this->name . '/views/js/horizontmodule.js',
+      [
+        'position' => 'bottom',
+        'priority' => 1000,
+      ]
+    );
   }
 }
