@@ -42,14 +42,14 @@ class District
 
     $table_district = _DB_PREFIX_ . self::DB_DISTRICT_TABLE_NAME;
     $table_state = _DB_PREFIX_ . 'state';
+    $table_country = _DB_PREFIX_ . 'country_lang';
 
-    // $sql = 'SELECT '. $fields .' FROM `' . $table_district . '` as district';
-
-    $select = 'SELECT '. $fields. ', state.name as province';
+    $select = 'SELECT '. $fields. ', country.name as country, state.name as province';
     $from = ' FROM `' .$table_district. '` as district';
-    $inner = ' INNER JOIN `'. $table_state .'` as state ON state.id_state = district.id_state';
+    $inner_state = ' INNER JOIN `'. $table_state .'` as state ON state.id_state = district.id_state';
+    $inner_country = ' INNER JOIN `'. $table_country .'` as country ON country.id_country = district.id_country';
 
-    $sql = $select . $from . $inner;
+    $sql = $select . $from . $inner_state . $inner_country;
 
     if ($id_country !== null && filter_var($id_country, FILTER_VALIDATE_INT)) {
       $sql .= ' WHERE district.id_country=' . (int)$id_country .';';

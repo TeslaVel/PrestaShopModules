@@ -17,10 +17,12 @@ class EaUtils
     $dataArray = $data;
     $allowed = $fillable_fields;
 
+    # If data comes as a list, then it is converted to an associative array.
     if(array_is_list($data)) {
       $dataArray = array_combine(array_values($data), array_keys($data));
     }
 
+    # This function is to filter and leave only the allowed fields
     $filtered_data = array_filter($dataArray, function ($key) use ($allowed) {
       return in_array($key, $allowed);
     }, ARRAY_FILTER_USE_KEY);

@@ -76,8 +76,7 @@ class ExtraAddress extends Module
             $this->addExtraFieldToCustomerAddress() &&
             $this->createTableDistrict() &&
             $this->registerDistrictTab() &&
-            $this->registerProvincesTab() &&
-            $this->registerHook('actionAdminStatesList')
+            $this->registerProvincesTab()
         );
     }
 
@@ -88,8 +87,7 @@ class ExtraAddress extends Module
             $this->removeExtraFieldFromCustomerAddress() &&
             $this->removeTableDistrict() &&
             $this->unregisterDistrictTab() &&
-            $this->unregisterProvincesTab() &&
-            $this->unregisterHook('actionAdminStatesList')
+            $this->unregisterProvincesTab()
         );
     }
 
@@ -105,7 +103,7 @@ class ExtraAddress extends Module
             }
 
             $format = $addressFormat['format'];
-            $newText = "\n" . 'id_department' . "\n" . 'id_district';
+            $newText = "\n" . 'id_district';
             $updatedFormat = $format . $newText;
 
             // Update address format
@@ -117,7 +115,6 @@ class ExtraAddress extends Module
             // Modify ps_address table to add new fields
             $alterTableQuery = 'ALTER TABLE ' . _DB_PREFIX_ . self::DB_TABLE_ADDRESS .
                 '
-                ADD COLUMN id_department INT DEFAULT NULL,
                 ADD COLUMN id_district INT DEFAULT NULL
                 ';
 
@@ -143,7 +140,7 @@ class ExtraAddress extends Module
             }
 
             $format = $addressFormat['format'];
-            $removedText = "\n" . 'id_department' . "\n" . 'id_district';
+            $removedText = "\n" . 'id_district';
             $updatedFormat = str_replace($removedText, '', $format);
 
             // Update address format
@@ -156,7 +153,6 @@ class ExtraAddress extends Module
             $addressRestored = Db::getInstance()->execute(
                 'ALTER TABLE ' . _DB_PREFIX_ . self::DB_TABLE_ADDRESS .
                     '
-                DROP COLUMN id_department,
                 DROP COLUMN id_district
                 '
             );
@@ -272,16 +268,5 @@ class ExtraAddress extends Module
         Tools::redirectAdmin(
             $this->context->link->getAdminLink(DevDistrictsController::TAB_CLASS_NAME)
         );
-    }
-
-    public function hookActionAdminStatesList($params)
-    {
-        $states = $params['states'];
-
-        foreach ($states as $state) {
-            $state['id_department'] = 22;
-        }
-
-        return $states;
     }
 }
