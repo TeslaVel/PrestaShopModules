@@ -1,0 +1,24 @@
+{
+    "name": "prestashop/extraaddress",
+    "license": "AFL-3.0",
+    "authors": [
+      {
+        "name": "Jose Garces",
+        "email": "teslaveloper@gmail.com"
+      },
+      {
+        "name": "Roder",
+        "email": "rodericksanchezmeza@gmail.com"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "PrestaShop\\Module\\ExtraAddress\\": "src/"
+      },
+      "config": {
+        "prepend-autoloader": false
+      },
+      "type": "prestashop-module"
+    }
+  }
+  

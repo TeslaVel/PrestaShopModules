@@ -1,0 +1,63 @@
+ps_extra_address_districts:
+    path: /extra-address-districts
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevDistrictsController::indexAction'
+        _legacy_controller: 'AdminDistricts'
+        _legacy_link: 'AdminDistricts'
+
+ps_extra_address_districts_save:
+    path: /extra-address-districts-save/{id?}
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevDistrictsController::saveAction'
+        _legacy_controller: 'AdminDistricts'
+        _legacy_link: 'AdminDistricts:save'
+
+ps_extra_address_districts_edit:
+    path: /extra-address-districts-edit/{id?}
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevDistrictsController::editAction'
+        _legacy_controller: 'AdminDistricts'
+        _legacy_link: 'AdminDistricts:edit'
+
+ps_extra_address_districts_delete:
+    path: /extra-address-districts-delete/{id}
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevDistrictsController::deleteAction'
+        _legacy_controller: 'AdminDistricts'
+        _legacy_link: 'AdminDistricts:delete'
+
+ps_extra_address_provinces:
+    path: /extra-address-provinces
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevProvincesController::indexAction'
+        _legacy_controller: 'AdminProvinces'
+        _legacy_link: 'AdminProvinces'
+
+ps_extra_address_provinces_save:
+    path: /extra-address-provinces-save/{id?}
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevProvincesController::saveAction'
+        _legacy_controller: 'AdminProvinces'
+        _legacy_link: 'AdminProvinces:save'
+
+ps_extra_address_provinces_edit:
+    path: /extra-address-provinces-edit/{id?}
+    methods: [GET]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevProvincesController::editAction'
+        _legacy_controller: 'AdminProvinces'
+        _legacy_link: 'AdminProvinces:edit'
+
+ps_extra_address_provinces_delete:
+    path: /extra-address-provinces-delete/{id}
+    methods: [POST]
+    defaults:
+        _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevProvincesController::deleteAction'
+        _legacy_controller: 'AdminProvinces'
+        _legacy_link: 'AdminProvinces:delete'

@@ -1,0 +1,55 @@
+{% extends '@Modules/extraaddress/views/templates/admin/layout.html.twig' %}
+
+{% block cardHeaderTitle %}
+  {{ 'List of Districts' }}
+{% endblock %}
+
+{% block cardHeaderAction %}
+  <a href="{{ path('ps_extra_address_districts_edit') }}">New District</a>
+  <a href="{{ path('ps_extra_address_provinces') }}">View Provinces</a>
+{% endblock %}
+
+{% block contentForm %}
+  <div class="row col-md-12">
+    <table class="grid-table table ">
+      <thead class="thead-default">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Province</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for district in districts %}
+          <tr>
+            <td>{{ district.id_district}}</td>
+            <td>{{ district.name }}</td>
+            <td>{{ district.province }}</td>
+            <td>
+              <a
+              class="btn btn-link dropdown-toggle dropdown-toggle-dots dropdown-toggle-split no-rotate"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
+                <a class="btn tooltip-link js-link-row-action dropdown-item" href="{{ path('ps_extra_address_districts_edit', {'id': district.id_district }) }}" data-confirm-message="" data-clickable-row="1">
+                  <i class="material-icons">edit</i>
+                    Edit
+                </a>
+    
+                {# <form action="{{ path('ps_extra_address_disctricts_delete', {'id': district.id_district}) }}" method="post" class="btn dropdown-item">
+                  <button type="submit" class="btn tooltip-link dropdown-item p-0">
+                    <i class="material-icons">delete</i>
+                    Delete
+                  </button>
+                </form> #}
+              </div>
+
+            </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

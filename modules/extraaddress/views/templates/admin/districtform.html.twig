@@ -1,0 +1,47 @@
+{% extends '@Modules/extraaddress/views/templates/admin/layout.html.twig' %}
+
+{% block cardHeaderTitle %}
+  {{ 'Province Form'}}
+{% endblock %}
+
+{% block cardHeaderAction %}
+  <a href="{{ path('ps_extra_address_districts') }}">Back</a>
+{% endblock %}
+
+{% block contentForm %}
+  <div class="form-wrapper">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="col-md-12">
+          {{ form_start(form) }}
+          <input type="hidden" name="action" value="saveAction">
+
+          <div class="form-group">
+            <label for='id_country'>
+              Country
+            </label>
+            {{ form_widget(form.id_country) }}
+          </div>
+
+          <div class="form-group">
+            <label for='id_state'>
+              State
+            </label>
+            {{ form_widget(form.id_state) }}
+          </div>
+
+          <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+          </div>
+
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="{{ctr_submit_action}}">
+          </div>
+
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
