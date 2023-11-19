@@ -16,7 +16,10 @@ class District
   const COUNTRY_ID = Province::COUNTRY_ID;
 
   protected $fillable_fields = [
-    'name',
+    'name'
+  ];
+
+  protected $fillable_fks = [
     'id_state',
     'id_country'
   ];
@@ -31,11 +34,16 @@ class District
     $this->EaUtils = new EaUtils;
   }
 
+  protected function getFillableFields()
+  {
+    return array_merge($this->fillable_fks, $this->fillable_fields);
+  }
+
   public function getAllDistricts($id_country = null, $limit = null)
   {
-    $fields_array = array_merge($this->protected_fields, $this->fillable_fields);
-    array_walk($fields_array, function (&$item1, $key, $alias) {
-      $item1 = "$alias.$item1";
+    $fields_array = array_merge($this->protected_fields, $this->getFillableFields());
+    array_walk($fields_array, function (&$field, $key, $alias) {
+      $field = "$alias.$field";
     }, 'district');
 
     $fields = implode(', ', $fields_array);
@@ -68,7 +76,8 @@ class District
 
   public function insertData($data)
   {
-    $composed = $this->EaUtils->preparedData($this->fillable_fields, $data);
+    $fields_array = $this->getFillableFields();
+    $composed = $this->EaUtils->preparedData($fields_array, $data);
     $keys = $composed[0];
     $values = $composed[1];
 
@@ -83,14 +92,15 @@ class District
   {
     if (empty($id_district)) return false;
 
-    $composed = $this->EaUtils->preparedData($this->fillable_fields, $data);
+    $fields_array = $this->getFillableFields();;
+    $composed = $this->EaUtils->preparedData($fields_array, $data);
     $keys = $composed[0];
     $values = $composed[1];
 
     $sql = 'UPDATE `' . _DB_PREFIX_ . self::DB_DISTRICT_TABLE_NAME . '` SET ';
 
     foreach ($keys as $index => $key) {
-      if ($key == 'parent_id') {
+      if (in_array($key, $this->fillable_fks)) {
         $sql .= '`' . $key . '` = "' . (int)$values[$index] . '", ';
       } else {
         $sql .= '`' . $key . '` = "' . pSQL($values[$index]) . '", ';
@@ -107,7 +117,7 @@ class District
   {
     if (empty($id_district)) return null;
 
-    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->fillable_fields);
+    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->getFillableFields());
 
     $sql = 'SELECT ' . $fields . ' FROM `' . _DB_PREFIX_ . self::DB_DISTRICT_TABLE_NAME . '` WHERE `'.$this->primary_key.'` = ' . (int)$id_district;
 
@@ -133,7 +143,7 @@ class District
   {
     if (empty($id_country)) return [];
 
-    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->fillable_fields);
+    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->getFillableFields());
 
     $sql = 'SELECT ' . $fields . ' FROM `' . _DB_PREFIX_ . self::DB_DISTRICT_TABLE_NAME . '` WHERE id_country = ' . (int)$id_country;
 
@@ -142,7 +152,7 @@ class District
 
   public function getFilteredFields($data)
   {
-    $filtered = $this->EaUtils->filteredFields($this->fillable_fields, $data);
+    $filtered = $this->EaUtils->filteredFields($this->getFillableFields(), $data);
     return $filtered;
   }
 }

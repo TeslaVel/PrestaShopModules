@@ -56,7 +56,7 @@ class DevProvincesController extends FrameworkBundleAdminController
             $action_url = $this->generateUrl('ps_extra_address_provinces_save', ['id' => $id,'_token' => $token]);
         }
 
-        $form = $this->builForm(['id_country', 'id_zone', 'name'], true, $action_url);
+        $form = $this->buildForm(['id_country', 'id_zone', 'name'], true, $action_url);
 
         if ($id) {
             $province = $this->Province->getProvinceById($id);
@@ -73,7 +73,7 @@ class DevProvincesController extends FrameworkBundleAdminController
         );
     }
 
-    protected function builForm($fields, $is_post = false , $action_url = null) {
+    protected function buildForm($fields, $is_post = false , $action_url = null) {
         $filtered = $this->Province->getFilteredFields($fields);
         $id_country = $this->getContext()->country->id;
         $id_zone = $this->getContext()->country->id_zone;
@@ -134,7 +134,7 @@ class DevProvincesController extends FrameworkBundleAdminController
         //     ->add('id_country', ChoiceType::class, ['choices' => $countriesOptions, 'required' => true])
         //     ->add('name', TextType::class)
         //     ->getForm();
-        $form = $this->builForm($request->request->get('form'));
+        $form = $this->buildForm($request->request->get('form'));
         $form->handleRequest($request);
 
         $flash_type = 'error';

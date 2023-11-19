@@ -3,7 +3,7 @@
 class Address extends AddressCore
 {
     /** @var int */
-    public static $id_district;
+    public $id_district;
 
     public function __construct($id_address = null, $id_lang = null)
     {

@@ -14,7 +14,10 @@ class Province
   const COUNTRY_ID = '169';
 
   public $fillable_fields = [
-    'name',
+    'name'
+  ];
+
+  protected $fillable_fks = [
     'id_country',
     'id_zone'
   ];
@@ -29,9 +32,14 @@ class Province
     $this->EaUtils = new EaUtils;
   }
 
+  protected function getFillableFields()
+  {
+    return array_merge($this->fillable_fks, $this->fillable_fields);
+  }
+
   public function getAllProvinces($id_country = null, $limit = null)
   {
-    $fields = implode(', ', $this->protected_fields) .','. implode(', ', $this->fillable_fields);
+    $fields = implode(', ', $this->protected_fields) .','. implode(', ', $this->getFillableFields());
 
     $sql = 'SELECT '. $fields .' FROM `' . _DB_PREFIX_ . self::DB_STATE_TABLE_NAME . '`';
 
@@ -52,7 +60,8 @@ class Province
 
   public function insertData($data)
   {
-    $composed = $this->EaUtils->preparedData($this->fillable_fields, $data);
+    $fields_array = $this->getFillableFields();
+    $composed = $this->EaUtils->preparedData($fields_array, $data);
     $keys = $composed[0];
     $values = $composed[1];
 
@@ -67,7 +76,8 @@ class Province
   {
     if (empty($id_province)) return false;
 
-    $composed = $this->EaUtils->preparedData($this->fillable_fields, $data);
+    $fields_array = $this->getFillableFields();
+    $composed = $this->EaUtils->preparedData($fields_array, $data);
 
     $keys = $composed[0];
     $values = $composed[1];
@@ -75,7 +85,7 @@ class Province
     $sql = 'UPDATE `' . _DB_PREFIX_ . self::DB_STATE_TABLE_NAME . '` SET ';
 
     foreach ($keys as $index => $key) {
-      if ($key == 'parent_id') {
+      if (in_array($key, $this->fillable_fks)) {
         $sql .= '`' . $key . '` = "' . (int)$values[$index] . '", ';
       } else {
         $sql .= '`' . $key . '` = "' . pSQL($values[$index]) . '", ';
@@ -92,7 +102,7 @@ class Province
   {
     if (empty($id_province)) return null;
 
-    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->fillable_fields);
+    $fields = implode(', ', $this->protected_fields) . ',' . implode(', ', $this->getFillableFields());
 
     $sql = 'SELECT ' . $fields . ' FROM `' . _DB_PREFIX_ . self::DB_STATE_TABLE_NAME . '` WHERE `'.$this->primary_key.'` = ' . (int)$id_province;
 
@@ -116,7 +126,7 @@ class Province
 
   public function getFilteredFields($data)
   {
-    $filtered = $this->EaUtils->filteredFields($this->fillable_fields, $data);
-    return $filtered;
+    $fields_array = $this->getFillableFields();
+    return $this->EaUtils->filteredFields($fields_array, $data);
   }
 }

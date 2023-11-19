@@ -48,7 +48,6 @@ class EaUtils
       if(empty($name)) return [];
       if(empty($records)) return [];
      
-      $newArray = array_combine(array_column($records, $name), array_column($records, $id_name));
-      return $newArray;
+      return array_combine(array_column($records, $name), array_column($records, $id_name));
   }
 }

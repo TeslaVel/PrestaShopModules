@@ -33,15 +33,22 @@ class DevDistrictsController extends FrameworkBundleAdminController
     public function indexAction(Request $request)
     {
         $token = $request->query->get('_token');
-        $id_country = $this->getContext()->country->id;
+        $id_country = empty($request->request->get('form')) ? $this->getContext()->country->id : $request->request->get('form')['id_country'];
+        $id_lang = $this->getContext()->language->id;
         $districts = $this->District->getAllDistricts($id_country);
+        $countries = Country::getCountries($id_lang, true);
+
+        $action_url = $this->generateUrl('ps_extra_address_districts', ['_token' => $token]);
+        $form = $this->buildForm(['id_country'], true, $action_url, (int)$id_country);
 
         return $this->render(
             '@Modules/extraaddress/views/templates/admin/districtslist.html.twig',
             [
                 'token' => $token,
                 'ctr_content' => '',
-                'districts' => $districts
+                'districts' => $districts,
+                'countries' => $countries,
+                'formSearch' => $form->createView()
             ]
         );
     }
@@ -59,7 +66,7 @@ class DevDistrictsController extends FrameworkBundleAdminController
             $action_url = $this->generateUrl('ps_extra_address_districts_save', ['id' => $id, '_token' => $token]);
         }
 
-        $form = $this->builForm(['id_country', 'id_state', 'name'], true, $action_url);
+        $form = $this->buildForm(['id_country', 'id_state', 'name'], true, $action_url);
 
         if ($id) {
             $district = $this->District->getDistrictById($id);
@@ -76,8 +83,8 @@ class DevDistrictsController extends FrameworkBundleAdminController
         );
     }
 
-    protected function builForm($fields, $is_post = false , $action_url = null) {
-        $id_country = $this->getContext()->country->id;
+    protected function buildForm($fields, $is_post = false , $action_url = null, $id_country = null) {
+        $id_country = (int) $id_country | $this->getContext()->country->id;
         $filtered = $this->District->getFilteredFields($fields);
  
         $states = $this->Province->getAllProvinces(Province::COUNTRY_ID);
@@ -128,7 +135,7 @@ class DevDistrictsController extends FrameworkBundleAdminController
 
     public function saveAction(Request $request, int $id = null)
     {
-        $form = $this->builForm($request->request->get('form'));
+        $form = $this->buildForm($request->request->get('form'));
         $form->handleRequest($request);
 
 

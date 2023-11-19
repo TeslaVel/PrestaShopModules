@@ -1,6 +1,6 @@
 ps_extra_address_districts:
     path: /extra-address-districts
-    methods: [GET]
+    methods: [GET, POST]
     defaults:
         _controller: 'PrestaShop\Module\ExtraAddress\Controller\Admin\DevDistrictsController::indexAction'
         _legacy_controller: 'AdminDistricts'
