@@ -39,7 +39,7 @@ class District
     return array_merge($this->fillable_fks, $this->fillable_fields);
   }
 
-  public function getAllDistricts($id_country = null, $limit = null)
+  public function getAllDistricts($id_country = null, $id_state = null, $limit = null)
   {
     $fields_array = array_merge($this->protected_fields, $this->getFillableFields());
     array_walk($fields_array, function (&$field, $key, $alias) {
@@ -59,14 +59,24 @@ class District
 
     $sql = $select . $from . $inner_state . $inner_country;
 
-    if ($id_country !== null && filter_var($id_country, FILTER_VALIDATE_INT)) {
-      $sql .= ' WHERE district.id_country=' . (int)$id_country .';';
+
+    if ($id_country !== null || $id_state != null) {
+      $sql .= ' WHERE 1';
+    }
+
+    if ($id_country !== null && $id_country !== 'all' && filter_var($id_country, FILTER_VALIDATE_INT)) {
+      $sql .= ' AND district.id_country=' . (int)$id_country .'';
+    }
+
+    if ($id_state !== null && $id_state !== 'all' && filter_var($id_state, FILTER_VALIDATE_INT)) {
+      $sql .= ' AND district.id_state=' . (int)$id_state .'';
     }
 
     if ($limit !== null && filter_var($limit, FILTER_VALIDATE_INT)) {
-      $sql .= ' LIMIT ' . (int)$limit .';';
+      $sql .= ' LIMIT ' . (int)$limit .'';
     }
 
+    $sql .= ';';
 
     $results = Db::getInstance()->executeS($sql);
    

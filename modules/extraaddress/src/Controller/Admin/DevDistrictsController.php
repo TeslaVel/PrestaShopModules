@@ -33,13 +33,22 @@ class DevDistrictsController extends FrameworkBundleAdminController
     public function indexAction(Request $request)
     {
         $token = $request->query->get('_token');
-        $id_country = empty($request->request->get('form')) ? $this->getContext()->country->id : $request->request->get('form')['id_country'];
+        
+        if (empty($request->request->get('form'))) {
+         $id_country = $this->getContext()->country->id;
+         $id_state = null;
+        } else {
+         $id_country = $request->request->get('form')['id_country'];
+         $id_state = $request->request->get('form')['id_state'];
+        }
+
+           
         $id_lang = $this->getContext()->language->id;
-        $districts = $this->District->getAllDistricts($id_country);
+        $districts = $this->District->getAllDistricts($id_country, $id_state);
         $countries = Country::getCountries($id_lang, true);
 
         $action_url = $this->generateUrl('ps_extra_address_districts', ['_token' => $token]);
-        $form = $this->buildForm(['id_country'], true, $action_url, (int)$id_country);
+        $form = $this->buildForm(['id_country', 'id_state'], true, $action_url, (int)$id_country, (int)$id_state);
 
         return $this->render(
             '@Modules/extraaddress/views/templates/admin/districtslist.html.twig',
@@ -83,7 +92,8 @@ class DevDistrictsController extends FrameworkBundleAdminController
         );
     }
 
-    protected function buildForm($fields, $is_post = false , $action_url = null, $id_country = null) {
+    protected function buildForm($fields, $is_post = false , $action_url = null, $id_country = null, $id_state = null)
+    {
         $id_country = (int) $id_country | $this->getContext()->country->id;
         $filtered = $this->District->getFilteredFields($fields);
  
@@ -104,6 +114,7 @@ class DevDistrictsController extends FrameworkBundleAdminController
                         'label' => 'Estado',
                         'required' => true,
                         'choices' => $stateOptions,
+                        'data' => $id_state,
                     ]
                 );
             } elseif ($key == 'id_country') {

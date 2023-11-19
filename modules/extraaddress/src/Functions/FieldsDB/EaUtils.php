@@ -47,7 +47,10 @@ class EaUtils
       if(empty($id_name)) return [];
       if(empty($name)) return [];
       if(empty($records)) return [];
-     
-      return array_combine(array_column($records, $name), array_column($records, $id_name));
+      
+      $other = [
+        '-' => 'all'
+      ];
+      return array_merge($other, array_combine(array_column($records, $name), array_column($records, $id_name)));
   }
 }
